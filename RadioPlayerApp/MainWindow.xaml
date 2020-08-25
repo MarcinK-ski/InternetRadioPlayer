@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="RadioPlayerApp" Height="367" Width="430" ResizeMode="CanMinimize" >
     <Grid Margin="0,0,0,0">
-        <TabControl SelectionChanged="TabControl_SelectionChanged">
+        <MediaElement x:Name="mediaPlayer" HorizontalAlignment="Left" Height="47" Margin="207,95,0,0" VerticalAlignment="Top" Width="130" LoadedBehavior="Stop" MediaFailed="AudioLoadingFailed"/>
+        <TabControl SelectionChanged="SelectedTabChanged">
             <TabItem Header="Player">
                 <Grid>
                     <Grid.Background>
@@ -16,8 +17,6 @@
                             <GradientStop Color="#FF3A3D47" Offset="1"/>
                         </LinearGradientBrush>
                     </Grid.Background>
-
-                    <MediaElement x:Name="mediaPlayer" HorizontalAlignment="Left" Height="47" Margin="207,95,0,0" VerticalAlignment="Top" Width="130" LoadedBehavior="Stop" MediaFailed="MediaLoadingFailed"/>
                     <Label x:Name="listenTimeLabel" Content="Listening time:" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/>
                     <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" Click="PlayButtonClick" Width="62"/>
                     <Label x:Name="currentSongLabel" Content="Current song:" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top"/>
@@ -31,7 +30,6 @@
                     <Image x:Name="logo" Height="54" Margin="79,213,79,0" VerticalAlignment="Top" Width="250" MaxWidth="250" MinHeight="54" MaxHeight="54" Stretch="Uniform" Source="/logo.jpg" ImageFailed="LogoImageLoadingFailed"/>
                     <Label x:Name="volumeLabel" Content="Vol." HorizontalAlignment="Left" Margin="346,117,0,0" VerticalAlignment="Top" Width="58" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     <Label x:Name="imageNotLoadedLabel" Content="Logo could not be loaded" HorizontalAlignment="Center" Margin="0,258,0,0" VerticalAlignment="Top" Foreground="#FFFF0909" Visibility="Hidden"/>
-
                 </Grid>
             </TabItem>
             <TabItem x:Name="errorsTab" Header="Errors">
@@ -40,6 +38,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>
