@@ -1,0 +1,45 @@
+﻿<Window x:Class="RadioPlayerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RadioPlayerApp"
+        mc:Ignorable="d"
+        Title="RadioPlayerApp" Height="367" Width="430" ResizeMode="CanMinimize" >
+    <Grid Margin="0,0,0,0">
+        <TabControl SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="Player">
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFE2E2E2"/>
+                            <GradientStop Color="#FF3A3D47" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <MediaElement x:Name="mediaPlayer" HorizontalAlignment="Left" Height="47" Margin="207,95,0,0" VerticalAlignment="Top" Width="130" LoadedBehavior="Stop" MediaFailed="MediaLoadingFailed"/>
+                    <Label x:Name="listenTimeLabel" Content="Listening time:" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" Click="PlayButtonClick" Width="62"/>
+                    <Label x:Name="currentSongLabel" Content="Current song:" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="currentRadioLabel" Content="Current radio:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="radioSelector" HorizontalAlignment="Left" Margin="113,14,0,0" VerticalAlignment="Top" Width="227"/>
+                    <Label x:Name="time" Content="00:00:00" HorizontalAlignment="Left" Margin="102,109,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="song" Content="- \ -" HorizontalAlignment="Left" Margin="20,166,0,0" VerticalAlignment="Top" Width="384"/>
+                    <Button x:Name="pauseButton" Content="Pause" HorizontalAlignment="Left" Margin="140,61,0,0" VerticalAlignment="Top" Click="PauseButtonClick" Width="62" IsEnabled="False"/>
+                    <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="278,61,0,0" VerticalAlignment="Top" Click="StopButtonClick" Width="62" IsEnabled="False"/>
+                    <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="368,10,0,0" VerticalAlignment="Top" Width="18" Orientation="Vertical" Height="99" ValueChanged="VolumeSliderValueChanged" Maximum="1"/>
+                    <Image x:Name="logo" Height="54" Margin="79,213,79,0" VerticalAlignment="Top" Width="250" MaxWidth="250" MinHeight="54" MaxHeight="54" Stretch="Uniform" Source="/logo.jpg" ImageFailed="LogoImageLoadingFailed"/>
+                    <Label x:Name="volumeLabel" Content="Vol." HorizontalAlignment="Left" Margin="346,117,0,0" VerticalAlignment="Top" Width="58" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="imageNotLoadedLabel" Content="Logo could not be loaded" HorizontalAlignment="Center" Margin="0,258,0,0" VerticalAlignment="Top" Foreground="#FFFF0909" Visibility="Hidden"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="errorsTab" Header="Errors">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="errorsTextBox" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="388" Height="287" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
