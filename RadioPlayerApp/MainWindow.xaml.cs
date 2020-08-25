@@ -67,7 +67,7 @@ namespace RadioPlayerApp
         {
             InitializeComponent();
             _defaultErrorTabColor = errorsTab.Background;
-            mediaPlayer.LoadedBehavior = mediaPlayer.UnloadedBehavior = MediaState.Manual;
+            mediaPlayer.LoadedBehavior = MediaState.Manual;
             volumeSlider.Value = mediaPlayer.Volume;
 
             DefaultLogoSource = logo.Source;
@@ -118,6 +118,13 @@ namespace RadioPlayerApp
             imageNotLoadedLabel.Visibility = Visibility.Hidden;
         }
 
+        private void AddNewError(Exception ex, string details = "")
+        {
+            errorsTextBox.Text += $"\n{details}\n{ex}";
+            errorsTab.Background = Brushes.Red;
+        }
+
+        #region RadioHandlingEventsMethods
         private void NewErrorInRadios(object sender, Exception exception)
         {
             AddNewError(exception, "In RADIOS");
@@ -127,7 +134,9 @@ namespace RadioPlayerApp
         {
             song.Content = e.SongInfo;
         }
+        #endregion
 
+        #region ButtonsClickEvents
         private void PlayButtonClick(object sender, RoutedEventArgs e)
         {
             if (!IsRadioInitialized)
@@ -157,19 +166,13 @@ namespace RadioPlayerApp
             }
         }
 
-        private void AddNewError(Exception ex, string details = "")
-        {
-            errorsTextBox.Text += $"\n{details}\n{ex}";
-            errorsTab.Background = Brushes.Red;
-
-        }
-
         private void StopButtonClick(object sender, RoutedEventArgs e)
         {
             if (IsRadioInitialized)
             {
                 mediaPlayer.Stop();
-                mediaPlayer.Source = null;
+                mediaPlayer.Close();
+                mediaPlayer.ClearValue(MediaElement.SourceProperty);
                 CurrentRadio.StopListeningToNewSongInfo();
                 CurrentRadio.NewSong -= CurrentSongBasedOnIncomingEvent;
                 song.Content = "- \\ -";
@@ -187,13 +190,31 @@ namespace RadioPlayerApp
                 IsRadioPaused = true;
             }
         }
+        #endregion
 
+        #region UIUserManipulationEvents
         private void VolumeSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             mediaPlayer.Volume = volumeSlider.Value;
         }
 
-        private void MediaLoadingFailed(object sender, ExceptionRoutedEventArgs e)
+        private void SelectedTabChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (errorsTab.IsSelected)
+            {
+                errorsTab.Background = _defaultErrorTabColor;
+            }
+        }
+        #endregion
+
+        #region MediaLoadingFailsEvents
+        private void LogoImageLoadingFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            AddNewError(e.ErrorException, "Image loading failed");
+            imageNotLoadedLabel.Visibility = Visibility.Visible;
+        }
+
+        private void AudioLoadingFailed(object sender, ExceptionRoutedEventArgs e)
         {
             AddNewError(e.ErrorException, "On PLAY");
             if (IsRadioInitialized)
@@ -201,19 +222,6 @@ namespace RadioPlayerApp
                 IsRadioInitialized = false;
             }
         }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (errorsTab.IsSelected)
-            {
-                errorsTab.Background = _defaultErrorTabColor;
-            }
-        }
-
-        private void LogoImageLoadingFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            AddNewError(e.ErrorException, "Image loading failed");
-            imageNotLoadedLabel.Visibility = Visibility.Visible;
-        }
+        #endregion
     }
 }
