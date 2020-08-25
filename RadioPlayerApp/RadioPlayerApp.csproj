@@ -9,6 +9,9 @@
     <PackageIcon>icon.jpg</PackageIcon>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <Version>1.0.1</Version>
+    <Copyright>MarcinK-ski</Copyright>
+    <Description>Listen internet radio stream, watch current songs names and open this song via YT or Spotify, to save to it in your favourite collection!</Description>
+    <RepositoryUrl>https://github.com/MarcinK-ski/InternetRadioPlayer</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
