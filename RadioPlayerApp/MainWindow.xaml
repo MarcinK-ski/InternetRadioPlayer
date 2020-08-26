@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RadioPlayerApp"
         mc:Ignorable="d"
-        Title="RadioPlayerApp" Height="367" Width="430" ResizeMode="CanMinimize" >
+        Title="RadioPlayerApp" Height="382" Width="430" ResizeMode="CanMinimize"  >
     <Grid Margin="0,0,0,0">
         <MediaElement x:Name="mediaPlayer" HorizontalAlignment="Left" Height="47" Margin="207,95,0,0" VerticalAlignment="Top" Width="130" LoadedBehavior="Stop" MediaFailed="AudioLoadingFailed"/>
         <TabControl SelectionChanged="SelectedTabChanged">
@@ -17,24 +17,34 @@
                             <GradientStop Color="#FF3A3D47" Offset="1"/>
                         </LinearGradientBrush>
                     </Grid.Background>
-                    <Label x:Name="listenTimeLabel" Content="Listening time:" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="listenTimeLabel" Content="Listening time:" HorizontalAlignment="Right" Margin="0,278,171,0" VerticalAlignment="Top" FontWeight="Bold" Width="182" HorizontalContentAlignment="Right" Padding="0,6,0,5"/>
                     <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" Click="PlayButtonClick" Width="62"/>
-                    <Label x:Name="currentSongLabel" Content="Current song:" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="currentSongLabel" Content="Current song:" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="353" HorizontalContentAlignment="Center"/>
                     <Label x:Name="currentRadioLabel" Content="Current radio:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <ComboBox x:Name="radioSelector" HorizontalAlignment="Left" Margin="113,14,0,0" VerticalAlignment="Top" Width="227"/>
-                    <Label x:Name="time" Content="00:00:00" HorizontalAlignment="Left" Margin="102,109,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="song" Content="- \ -" HorizontalAlignment="Left" Margin="20,166,0,0" VerticalAlignment="Top" Width="384"/>
+                    <Label x:Name="time" Content="00:00:00" HorizontalAlignment="Left" Margin="182,279,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="171" HorizontalContentAlignment="Left" Height="23" FontStyle="Italic" Padding="0,5,0,5"/>
+                    <Label x:Name="song" Content="- \ -" HorizontalAlignment="Center" Margin="0,206,0,0" VerticalAlignment="Top" Width="354" FontSize="11" FontWeight="Normal" FontStyle="Italic" HorizontalContentAlignment="Center"/>
                     <Button x:Name="pauseButton" Content="Pause" HorizontalAlignment="Left" Margin="140,61,0,0" VerticalAlignment="Top" Click="PauseButtonClick" Width="62" IsEnabled="False"/>
                     <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="278,61,0,0" VerticalAlignment="Top" Click="StopButtonClick" Width="62" IsEnabled="False"/>
-                    <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="368,10,0,0" VerticalAlignment="Top" Width="18" Orientation="Vertical" Height="99" ValueChanged="VolumeSliderValueChanged" Maximum="1"/>
-                    <Image x:Name="logo" Height="54" Margin="79,213,79,0" VerticalAlignment="Top" Width="250" MaxWidth="250" MinHeight="54" MaxHeight="54" Stretch="Uniform" Source="/logo.jpg" ImageFailed="LogoImageLoadingFailed"/>
-                    <Label x:Name="volumeLabel" Content="Vol." HorizontalAlignment="Left" Margin="346,117,0,0" VerticalAlignment="Top" Width="58" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <Label x:Name="imageNotLoadedLabel" Content="Logo could not be loaded" HorizontalAlignment="Center" Margin="0,258,0,0" VerticalAlignment="Top" Foreground="#FFFF0909" Visibility="Hidden"/>
+                    <Image x:Name="logo" Height="54" Margin="0,108,0,0" VerticalAlignment="Top" MinHeight="54" MaxHeight="54" Stretch="Uniform" Source="/media/logo.jpg" ImageFailed="LogoImageLoadingFailed"/>
+                    <Label x:Name="imageNotLoadedLabel" Content="Logo could not be loaded" HorizontalAlignment="Center" Margin="0,122,0,0" VerticalAlignment="Top" Foreground="#FFFF0909" Visibility="Hidden" Width="353" HorizontalContentAlignment="Center"/>
+
+                    <Slider Grid.Column="1" x:Name="volumeSlider" HorizontalAlignment="Center" VerticalAlignment="Top" Width="18" Orientation="Vertical" Height="222" ValueChanged="VolumeSliderValueChanged" Maximum="1" LargeChange="0.25" Margin="0,10,0,0"/>
+                    <Button Grid.Column="1" x:Name="muteButton" Content="Mute" HorizontalAlignment="Center" VerticalAlignment="Top" Width="36" Height="36" Click="MuteButtonClick" BorderBrush="Black" Foreground="{x:Null}" Margin="0,268,0,0">
+                        <Button.Background>
+                            <ImageBrush Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                    <Label Grid.Column="1" x:Name="volumeLabel" Content="Vol." HorizontalAlignment="Center"  VerticalAlignment="Top" Width="58" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" Foreground="White" FontWeight="Bold" Margin="0,237,0,0"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="errorsTab" Header="Errors">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="errorsTextBox" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="388" Height="287" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+                    <TextBox x:Name="errorsTextBox" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
                 </Grid>
             </TabItem>
         </TabControl>

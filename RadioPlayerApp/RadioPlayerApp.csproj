@@ -6,17 +6,17 @@
     <UseWPF>true</UseWPF>
     <Authors>KalikDev</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>icon.jpg</PackageIcon>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>1.0.1</Version>
+    <PackageIcon>media/icon.jpg</PackageIcon>
+    <ApplicationIcon>media\icon.ico</ApplicationIcon>
+    <Version>1.0.2</Version>
     <Copyright>MarcinK-ski</Copyright>
     <Description>Listen internet radio stream, watch current songs names and open this song via YT or Spotify, to save to it in your favourite collection!</Description>
     <RepositoryUrl>https://github.com/MarcinK-ski/InternetRadioPlayer</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="logo.jpg" />
-    <None Include="icon.jpg">
+    <None Remove="media/logo.jpg" />
+    <None Include="media/icon.jpg">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="logo.jpg">
+    <Resource Include="media/logo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -38,10 +38,16 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="icon.ico">
+    <None Update="media/icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="icon.jpg">
+    <None Update="media/icon.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="media\muted.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="media\unmuted.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -13,6 +13,12 @@ namespace RadioPlayerApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        const string UNMUTED_ICON_LOCATION = @"media\unmuted.jpg";
+        const string MUTED_ICON_LOCATION = @"media\muted.jpg";
+
+        private ImageBrush _unmutedIconLocation = new ImageBrush(new BitmapImage(new Uri(UNMUTED_ICON_LOCATION, UriKind.Relative)));
+        private ImageBrush _mutedIconLocation = new ImageBrush(new BitmapImage(new Uri(MUTED_ICON_LOCATION, UriKind.Relative)));
+
         private Brush _defaultErrorTabColor;
         public List<Radio> Radios { get; set; } = new List<Radio>();
 
@@ -68,7 +74,7 @@ namespace RadioPlayerApp
             InitializeComponent();
             _defaultErrorTabColor = errorsTab.Background;
             mediaPlayer.LoadedBehavior = MediaState.Manual;
-            volumeSlider.Value = mediaPlayer.Volume;
+            volumeSlider.Value = 0.5;
 
             DefaultLogoSource = logo.Source;
 
@@ -82,7 +88,7 @@ namespace RadioPlayerApp
         {
             while (true)
             {
-                await Task.Delay(500);
+                await Task.Delay(1000);
                 time.Content = mediaPlayer.Position.ToString(@"hh\:mm\:ss");
             }
         }
@@ -120,8 +126,25 @@ namespace RadioPlayerApp
 
         private void AddNewError(Exception ex, string details = "")
         {
-            errorsTextBox.Text += $"\n{details}\n{ex}";
+            errorsTextBox.Text += $"> {DateTime.Now}: {details}\n{ex}\n------\n------\n\n\n";
             errorsTab.Background = Brushes.Red;
+        }
+
+        private void UpdateVolumeValue()
+        {
+            if (mediaPlayer.IsMuted)
+            {
+                muteButton.Content = "Unmute";
+                muteButton.Background = _mutedIconLocation;
+                volumeLabel.Content = "MUTED";
+            }
+            else
+            {
+                muteButton.Content = "Mute";
+                muteButton.Background = _unmutedIconLocation;
+                mediaPlayer.Volume = volumeSlider.Value;
+                volumeLabel.Content = $"{(int)(volumeSlider.Value * 100)}%";
+            }
         }
 
         #region RadioHandlingEventsMethods
@@ -173,8 +196,10 @@ namespace RadioPlayerApp
                 mediaPlayer.Stop();
                 mediaPlayer.Close();
                 mediaPlayer.ClearValue(MediaElement.SourceProperty);
+
                 CurrentRadio.StopListeningToNewSongInfo();
                 CurrentRadio.NewSong -= CurrentSongBasedOnIncomingEvent;
+
                 song.Content = "- \\ -";
                 SetNewLogoImage(DefaultLogoSource);
 
@@ -195,7 +220,7 @@ namespace RadioPlayerApp
         #region UIUserManipulationEvents
         private void VolumeSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            mediaPlayer.Volume = volumeSlider.Value;
+            UpdateVolumeValue();
         }
 
         private void SelectedTabChanged(object sender, SelectionChangedEventArgs e)
@@ -203,7 +228,18 @@ namespace RadioPlayerApp
             if (errorsTab.IsSelected)
             {
                 errorsTab.Background = _defaultErrorTabColor;
+                WindowState = WindowState.Maximized;
             }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void MuteButtonClick(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.IsMuted = !mediaPlayer.IsMuted;
+            UpdateVolumeValue();
         }
         #endregion
 
