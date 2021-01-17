@@ -8,7 +8,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>media/icon.jpg</PackageIcon>
     <ApplicationIcon>media\icon.ico</ApplicationIcon>
-    <Version>1.0.2</Version>
+    <Version>1.1.0</Version>
     <Copyright>MarcinK-ski</Copyright>
     <Description>Listen internet radio stream, watch current songs names and open this song via YT or Spotify, to save to it in your favourite collection!</Description>
     <RepositoryUrl>https://github.com/MarcinK-ski/InternetRadioPlayer</RepositoryUrl>
