@@ -22,7 +22,7 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="listenTimeLabel" Content="Listening time:" HorizontalAlignment="Right" Margin="0,278,171,0" VerticalAlignment="Top" FontWeight="Bold" Width="182" HorizontalContentAlignment="Right" Padding="0,6,0,5"/>
-                    <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" Click="PlayButtonClick" Width="62"/>
+                    <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" Click="PlayButtonClick" Width="62" IsEnabledChanged="IsEnabledChangedPlayButton"/>
                     <Label x:Name="currentSongLabel" Content="Current song:" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="353" HorizontalContentAlignment="Center"/>
                     <Label x:Name="currentRadioLabel" Content="Current radio:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <ComboBox x:Name="radioSelector" HorizontalAlignment="Left" Margin="113,14,0,0" VerticalAlignment="Top" Width="227"/>
@@ -40,6 +40,9 @@
                         </Button.Background>
                     </Button>
                     <Label Grid.Column="1" x:Name="volumeLabel" Content="Vol." HorizontalAlignment="Center"  VerticalAlignment="Top" Width="58" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" Foreground="White" FontWeight="Bold" Margin="0,237,0,0"/>
+                    <Button x:Name="YoutubeSearchButton" Content="YouTube" HorizontalAlignment="Left" Margin="14,248,0,0" VerticalAlignment="Top" Height="23" Width="62" Click="YoutubeSearchButton_Click" IsEnabled="False"/>
+                    <Button x:Name="SpotifySearchButton" Content="Spotify" HorizontalAlignment="Left" Margin="140,247,0,0" VerticalAlignment="Top" Height="23" Width="62" Click="SpotifySearchButton_Click" IsEnabled="False"/>
+                    <Button x:Name="GoogleSearchButton" Content="Google" HorizontalAlignment="Left" Margin="278,247,0,0" VerticalAlignment="Top" Height="23" Width="62" Click="GoogleSearchButton_Click" IsEnabled="False"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="errorsTab" Header="Errors">

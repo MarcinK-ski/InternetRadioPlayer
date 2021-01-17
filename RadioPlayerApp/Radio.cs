@@ -70,6 +70,9 @@ namespace RadioPlayerApp
         {
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
+
+            LastSongInfo = string.Empty;
+            _lastException = null;
         }
 
         private async void WaitAndCheckNewSongInfo()
