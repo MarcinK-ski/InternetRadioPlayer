@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,6 +58,7 @@ namespace RadioPlayerApp
             private set
             {
                 _isRadioInitialized = value;
+
                 if (_isRadioInitialized)
                 {
                     DisableOrEnableButtons(PlayerAction.Play);
@@ -102,6 +105,10 @@ namespace RadioPlayerApp
                     playButton.IsEnabled = false;
                     pauseButton.IsEnabled = true;
                     stopButton.IsEnabled = true;
+
+                    YoutubeSearchButton.IsEnabled = true;
+                    SpotifySearchButton.IsEnabled = true;
+                    GoogleSearchButton.IsEnabled = true;
                     break;
                 case PlayerAction.Pause:
                     radioSelector.IsEnabled = false;
@@ -114,6 +121,10 @@ namespace RadioPlayerApp
                     playButton.IsEnabled = true;
                     pauseButton.IsEnabled = false;
                     stopButton.IsEnabled = false;
+
+                    YoutubeSearchButton.IsEnabled = false;
+                    SpotifySearchButton.IsEnabled = false;
+                    GoogleSearchButton.IsEnabled = false;
                     break;
             }
         }
@@ -189,7 +200,20 @@ namespace RadioPlayerApp
             }
         }
 
+        private void IsEnabledChangedPlayButton(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (playButton.IsEnabled && !stopButton.IsEnabled)
+            {
+                DeinitializeRadio();
+            }
+        }
+
         private void StopButtonClick(object sender, RoutedEventArgs e)
+        {
+            DeinitializeRadio();
+        }
+
+        private void DeinitializeRadio()
         {
             if (IsRadioInitialized)
             {
@@ -256,6 +280,91 @@ namespace RadioPlayerApp
             if (IsRadioInitialized)
             {
                 IsRadioInitialized = false;
+            }
+        }
+        #endregion
+
+        #region searching
+        private void YoutubeSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchPrefixUrl = @"https://www.youtube.com/results?search_query=";
+            string urlWithSearchQuery = PrepareUrlWithQuery(searchPrefixUrl);
+
+            Search(urlWithSearchQuery);
+        }
+
+        private void SpotifySearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchPrefixUrl = @"https://open.spotify.com/search/";
+            string urlWithSearchQuery = PrepareUrlWithQuery(searchPrefixUrl);
+
+            Search(urlWithSearchQuery);
+        }
+
+        private void GoogleSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchPrefixUrl = @"https://www.google.com/search?q=";
+            string urlWithSearchQuery = PrepareUrlWithQuery(searchPrefixUrl);
+
+            Search(urlWithSearchQuery);
+        }
+
+        /// <summary>
+        /// Join url search with query (escaoed LastSonfInfo)
+        /// </summary>
+        /// <param name="searchPrefixUrl">URL (with param) used before search query</param>
+        /// <param name="replaceSpaceWith">If space, replace won't be executed</param>
+        /// <returns></returns>
+        private string PrepareUrlWithQuery(string searchPrefixUrl, char replaceSpaceWith = ' ')
+        {
+            string searchQuery = CurrentRadio.LastSongInfo;
+
+            if (replaceSpaceWith != ' ')
+            {
+                searchQuery = searchQuery.Replace(' ', replaceSpaceWith);
+            }
+
+            try
+            {
+                searchQuery = Uri.EscapeDataString(searchQuery);
+            }
+            catch (Exception ex)
+            {
+                AddNewError(ex, "Prepqre query method");
+            }
+
+            return $"{searchPrefixUrl}{searchQuery}";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="urlWithSearchQuery"></param>
+        private void Search(string urlWithSearchQuery)
+        {
+            try
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    urlWithSearchQuery = urlWithSearchQuery.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {urlWithSearchQuery}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", urlWithSearchQuery);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", urlWithSearchQuery);
+                }
+                else
+                {
+                    throw new Exception("Supported OS: Windows, Linux, OSX");
+                }
+            }
+            catch (Exception ex)
+            {
+                AddNewError(ex, "Search method");
             }
         }
         #endregion
